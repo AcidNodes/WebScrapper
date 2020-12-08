@@ -1,11 +1,13 @@
 import requests
-from bs4 import BeautifulSoup as bs4
+from bs4 import BeautifulSoup as bs4 #use BeautifulSoup module from bs4 and rename it bs4
 
+#Download target page contents
 def downloadPage(url):
     r = requests.get(url)
     response = r.content
     return response
 
+#Process web page content and extract interesting info
 def findNames(response):
     parser = bs4(response, 'html.parser')
     names = parser.find_all('td', id='name')
@@ -22,6 +24,7 @@ def findDepts(response):
         output.append(name.text)
     return output
 
+#Send requests to admin.php
 def getAuthorized(url, username, password):
     r = requests.get(url, auth=(username, password))
     if str(r.status_code) != '401':
